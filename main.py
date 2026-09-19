@@ -61,6 +61,12 @@ def delete_task():
     if os.path.exists("tasks.json"):
         with open("tasks.json", "r", encoding="utf-8") as file:
             data = json.load(file)
+            data["tasks"].pop(task_id)
+
+        with open("tasks.json", "w", encoding="utf-8") as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)
+        print(f"\n[\033[32m✓\033[0m] Task deleted!")
+
     else:
         print("You don't have any tasks")
 
