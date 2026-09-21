@@ -1,8 +1,8 @@
 import os
 import json
+import time
 from datetime import datetime
 from typing import Any
-
 
 def clean_terminal() -> None:
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -12,6 +12,7 @@ def show_menu() -> None:
     print("2.Add new task")
     print("3.Delete task")
     print("4.Update task")
+    print("5.Exit")
 
 def show_tasks() -> None:
     with open("tasks.json", "r", encoding="utf-8") as file:
@@ -141,6 +142,19 @@ def main() -> None:
             case '4':
                 clean_terminal()
                 update_task()
-
+            case'5':
+                clean_terminal()
+                var = input("Are you sure you want to exit?(y/n)։ ").lower().strip()
+                if var == 'y':
+                    print("\033[31mSERIOUSLY???!!!!\033[0m")
+                    print("okay")
+                    print("goodbye")
+                    break
+                elif var == 'n':
+                    print("The right choice:)")
+                else:
+                    print("Write Y or n")
+            case _:
+                print("Please enter a valid choice(1/2/3/4/5)")
 if __name__ == "__main__":
     main()
