@@ -8,8 +8,6 @@
 ![JSON](https://img.shields.io/badge/storage-JSON-000000?style=for-the-badge&logo=json&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 
-[Features](#-features) • [Installation](#-installation)
-
 </div>
 
 ---
@@ -39,5 +37,4 @@
 2. **Run program**
    ```commandline
       python main.py
-```
-   
+   ```
