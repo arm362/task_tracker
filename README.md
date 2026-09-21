@@ -4,9 +4,14 @@
 
 **A simple and intuitive command-line task manager built with Python**
 
-![Python](https://img.shields.io/badge/python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![JSON](https://img.shields.io/badge/storage-JSON-000000?style=for-the-badge&logo=json&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
+[![Project URL](https://img.shields.io/badge/Repository-GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/arm362/task_tracker)
+![Python](https://img.shields.io/badge/python-3.10+-3776AB?style=flat&logo=python&logoColor=white)
+![JSON](https://img.shields.io/badge/storage-JSON-000000?style=flat&logo=json&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-green?style=flat)
+
+---
+
+**Project URL:** [https://github.com/arm362/task_tracker](https://github.com/arm362/task_tracker)
 
 </div>
 
