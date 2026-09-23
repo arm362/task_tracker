@@ -17,14 +17,17 @@ def show_menu() -> None:
 def show_tasks() -> None:
     with open("tasks.json", "r", encoding="utf-8") as file:
         data: dict[str, Any] = json.load(file)
-    for task_id, task in data["tasks"].items(): 
-        print(f"\nTask id: {task_id}")
-        print(f"Task name: {task['name']}")
-        print(f"Task description: {task['description']}")
-        print(f"Task status: {task['status']}")
-        print(f"Task created date and time: {task['createdAt']}")
-        print(f"Task last updated date and time: {task['updatedAt']}")
-        print("\n=====================================================\n")
+    if data["tasks"] == {}:
+        print("\033[31mYou don't have any tasks\033[0m")
+    else:
+        for task_id, task in data["tasks"].items(): 
+            print(f"\nTask id: {task_id}")
+            print(f"Task name: {task['name']}")
+            print(f"Task description: {task['description']}")
+            print(f"Task status: {task['status']}")
+            print(f"Task created date and time: {task['createdAt']}")
+            print(f"Task last updated date and time: {task['updatedAt']}")
+            print("\n=====================================================\n")
 
 def add_task() -> None:
     name = input("\n Write task name: ")
@@ -65,11 +68,15 @@ def delete_task() -> None:
         try:
             with open("tasks.json", "r", encoding="utf-8") as file:
                 data: dict[str, Any] = json.load(file)
-                data["tasks"].pop(task_id)
+                tmp = input(f"Are you sure you want to delete task with {task_id} id(y/n)?")
+                if tmp == 'y':
+                    data["tasks"].pop(task_id)
+                    with open("tasks.json", "w", encoding="utf-8") as file:
+                        json.dump(data, file, indent=4, ensure_ascii=False)
+                    print(f"\n[\033[32m✓\033[0m] Task deleted!")
+                else:
+                    print("Task no deleted")
 
-            with open("tasks.json", "w", encoding="utf-8") as file:
-                json.dump(data, file, indent=4, ensure_ascii=False)
-            print(f"\n[\033[32m✓\033[0m] Task deleted!")
         except KeyError:
             print("\n\033[31mYou don't have a task with this id\033[0m")
     else:
