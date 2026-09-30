@@ -9,15 +9,9 @@
 ![JSON](https://img.shields.io/badge/storage-JSON-000000?style=flat&logo=json&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green?style=flat)
 
----
-
-**Project URL:** [https://github.com/arm362/task_tracker](https://github.com/arm362/task_tracker)
-
 </div>
 
----
-
-### 🔗 Project Links
+## Project Links
 
 * **Project Solution / Repository URL:** [https://github.com/arm362/task_tracker](https://github.com/arm362/task_tracker)
 * **Project Challenge URL:** https://roadmap.sh/projects/task-tracker
@@ -28,8 +22,6 @@
 - ➕ **Add Tasks** — Create new tasks.
 - ✏️ **Update Tasks** — Modify name, description, or status (`todo`, `in-progress`, `done`).
 - 🗑️ **Delete Tasks** — Remove tasks by their unique ID.
-
----
 
 ## ️ Installation & Setup
 
