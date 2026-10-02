@@ -1,4 +1,23 @@
+# Demo attempt
 test.py 
 demo.py
+
+# virtual env
+venv/
+.venv/
+
+# My tasks and configs
 tasks.json
-.venv
+*.config.json
+.task_tracker_config.json
+
+# Python files
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+.vscode/
+.idea/
+
+# api
+api
