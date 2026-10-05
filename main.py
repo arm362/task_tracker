@@ -12,7 +12,8 @@ def show_menu() -> None:
     print("2.Add new task")
     print("3.Delete task")
     print("4.Update task")
-    print("5.Exit")
+    print("5.Save tasks in cloud")
+    print("6.Exit")
 
 def show_tasks() -> None:
     with open("tasks.json", "r", encoding="utf-8") as file:
@@ -68,7 +69,9 @@ def delete_task() -> None:
         try:
             with open("tasks.json", "r", encoding="utf-8") as file:
                 data: dict[str, Any] = json.load(file)
-                tmp = input(f"Are you sure you want to delete task with {task_id} id(y/n)?")
+                tmp = input(
+                f"Are you sure you want to delete task with {task_id} id(y/n)?"
+                )
                 if tmp == 'y':
                     data["tasks"].pop(task_id)
                     with open("tasks.json", "w", encoding="utf-8") as file:
@@ -126,6 +129,26 @@ def update_task() -> None:
     else:
         print("\n\033[31mYou don't have tasks\033[0m")
 
+def save_data():
+    if os.path.exists("tasks.json"):
+        with open("tasks.json", "r", encoding="utf-8") as file:
+            data: dict[str, Any] = json.load(file)
+            # sent data in firebase
+            print("Your token: {token}")
+            # Click and copy to clipboard your token
+            print("\n[\033[32m✓\033[0m]Tasks sent to cloud!")
+    else:
+        print("\n\033[31mYou don't have any tasks\033[0m")
+
+def get_data():
+    token = input("Write your token: ").strip()
+    # Have this token in fireabase or no
+    if True:# token have 
+        pass
+
+def dev() -> None:
+    print("This feature is not available yet")
+
 def main() -> None:
     while True:
         print("\n============== \033[1;96mTask Tracker\033[0m ==============")    
@@ -149,7 +172,10 @@ def main() -> None:
             case '4':
                 clean_terminal()
                 update_task()
-            case'5':
+            case '5':
+                clean_terminal()
+                dev()
+            case'6':
                 clean_terminal()
                 var = input("Are you sure you want to exit?(y/n)։ ").lower().strip()
                 if var == 'y':
