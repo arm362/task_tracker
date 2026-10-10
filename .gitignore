@@ -10,6 +10,7 @@ venv/
 tasks.json
 *.config.json
 .task_tracker_config.json
+config.json
 
 # Python files
 __pycache__/
@@ -21,4 +22,5 @@ __pycache__/
 
 # api
 api
+serviceAccountKey.json
 

@@ -1,11 +1,14 @@
 import os
 import json
-import time
 from datetime import datetime
 from typing import Any
+from backend import cloud_sync
+
+is_login = False
 
 def clean_terminal() -> None:
     os.system('cls' if os.name == 'nt' else 'clear')
+
 
 def show_menu() -> None:
     print("1.Tasks list")
@@ -13,7 +16,9 @@ def show_menu() -> None:
     print("3.Delete task")
     print("4.Update task")
     print("5.Save tasks in cloud")
-    print("6.Exit")
+    print("6.Get tasks in cloud")
+    print("7.Exit")
+
 
 def show_tasks() -> None:
     with open("tasks.json", "r", encoding="utf-8") as file:
@@ -30,13 +35,14 @@ def show_tasks() -> None:
             print(f"Task last updated date and time: {task['updatedAt']}")
             print("\n=====================================================\n")
 
+
 def add_task() -> None:
     name = input("\n Write task name: ")
     description = input("\nWrite task description: ")
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     if os.path.exists("tasks.json"):
-         with open("tasks.json", "r", encoding="utf-8") as file:
+        with open("tasks.json", "r", encoding="utf-8") as file:
             try:
                 base_data: dict[str, Any] = json.load(file)
             except json.JSONDecodeError:
@@ -61,7 +67,10 @@ def add_task() -> None:
     with open("tasks.json", "w", encoding="utf-8") as file:
         json.dump(base_data, file, indent=4, ensure_ascii=False)
 
+    save_data()
+
     print(f"\n[\033[32m✓\033[0m] Task created!")
+
 
 def delete_task() -> None:
     task_id = input("Write deleted task id: ")
@@ -72,14 +81,14 @@ def delete_task() -> None:
                 tmp = input(
                 f"Are you sure you want to delete task with {task_id} id(y/n)?"
                 )
-                if tmp == 'y':
-                    data["tasks"].pop(task_id)
-                    with open("tasks.json", "w", encoding="utf-8") as file:
-                        json.dump(data, file, indent=4, ensure_ascii=False)
-                    print(f"\n[\033[32m✓\033[0m] Task deleted!")
-                else:
-                    print("Task no deleted")
-
+            if tmp == 'y':
+                data["tasks"].pop(task_id)
+                with open("tasks.json", "w", encoding="utf-8") as file:
+                    json.dump(data, file, indent=4, ensure_ascii=False)
+                print(f"\n[\033[32m✓\033[0m] Task deleted!")
+            else:
+                print("Task no deleted")
+            save_data()
         except KeyError:
             print("\n\033[31mYou don't have a task with this id\033[0m")
     else:
@@ -123,28 +132,41 @@ def update_task() -> None:
                             print("\n\033[32mTask status is updated\033[0m!")
                         else:
                             print("\033[31mWrite only this status(todo/in-progress/done)\033[0m")
-
+                save_data()
         except KeyError:
             print("\n\033[31mYou don't have a task with this id\033[0m")
     else:
         print("\n\033[31mYou don't have tasks\033[0m")
 
 def save_data():
-    if os.path.exists("tasks.json"):
-        with open("tasks.json", "r", encoding="utf-8") as file:
-            data: dict[str, Any] = json.load(file)
-            # sent data in firebase
-            print("Your token: {token}")
-            # Click and copy to clipboard your token
-            print("\n[\033[32m✓\033[0m]Tasks sent to cloud!")
-    else:
-        print("\n\033[31mYou don't have any tasks\033[0m")
+    global is_login
+    if is_login:
+        if os.path.exists("tasks.json"):
+            token = cloud_sync.get_or_create_user_token()
+            if cloud_sync.sent_file_to_base(token):
+                print(f"Your token: \033[33m{token}\033[0m")
+                print("\n[\033[32m✓\033[0m]Tasks sent to the cloud!")
+            else:
+                is_login = False
+                print("\n[\033[31m⨯\033[0m]Tasks didn't sent to the cloud")
+        else:
+            is_login = False
+            print("\n\033[31mYou don't have any tasks\033[0m")
 
 def get_data():
-    token = input("Write your token: ").strip()
-    # Have this token in fireabase or no
-    if True:# token have 
-        pass
+    if is_login:
+        if os.path.exists("config.json"):
+            token = cloud_sync.get_user_token()
+            if cloud_sync.load_tasks_from_cloud(token):
+                print("\n[\033[32m✓\033[0m]Tasks load in the cloud!")
+            else:
+                print("\n[\033[31m⨯\033[0m]Tasks can't load in the cloud")
+        else:
+            token = input("Write your token: ").strip()
+            if cloud_sync.load_tasks_from_cloud(token):
+                print("\n[\033[32m✓\033[0m]Tasks load in the cloud!")
+            else:
+                print("\n[\033[31m⨯\033[0m]Tasks can't load in the cloud")
 
 def dev() -> None:
     print("This feature is not available yet")
@@ -174,8 +196,13 @@ def main() -> None:
                 update_task()
             case '5':
                 clean_terminal()
-                dev()
-            case'6':
+                global is_login
+                is_login = True
+                save_data()
+            case '6':
+                clean_terminal()
+                get_data()
+            case '7':
                 clean_terminal()
                 var = input("Are you sure you want to exit?(y/n)։ ").lower().strip()
                 if var == 'y':
@@ -188,6 +215,6 @@ def main() -> None:
                 else:
                     print("Write Y or n")
             case _:
-                print("Please enter a valid choice(1/2/3/4/5)")
+                print("Please enter a valid choice(1-7)")
 if __name__ == "__main__":
     main()

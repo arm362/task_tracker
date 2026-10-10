@@ -22,6 +22,7 @@
 - ➕ **Add Tasks** — Create new tasks.
 - ✏️ **Update Tasks** — Modify name, description, or status (`todo`, `in-progress`, `done`).
 - 🗑️ **Delete Tasks** — Remove tasks by their unique ID.
+- **Save Tasks in Cloud** — Save your tasks in cloud (in progress)
 
 ## ️ Installation & Setup
 
